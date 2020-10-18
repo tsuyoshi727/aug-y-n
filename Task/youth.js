@@ -1,5 +1,5 @@
 /*
-更新时间: 2020-09-24 11:15
+更新时间: 2020-09-25 18:15
 赞赏:中青邀请码`46308484`,农妇山泉 -> 有点咸，万分感谢
 本脚本仅适用于中青看点极速版领取青豆
 
@@ -114,7 +114,6 @@ if ($.isNode()) {
           timeArr.push(READTIME[item])
         }
       })
-      console.log(`\n============ 脚本执行来自 Github Action  ==============\n`)
       console.log(`============ 脚本执行-国际标准时间(UTC)：${new Date().toLocaleString()}  =============\n`)
       console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}  =============\n`)
     } else {
@@ -129,8 +128,10 @@ const runtimes = $.getdata('times');
 const opboxtime = $.getdata('opbox');
 
 if (isGetCookie = typeof $request !== 'undefined') {
-   GetCookie()
-} else {
+   GetCookie();
+   $.done()
+} 
+
  !(async () => {
   if (!cookiesArr[0]) {
     $.msg($.name, '【提示】请先获取中青看点一cookie')
@@ -171,7 +172,7 @@ else if ($.time('HH')>4&&$.time('HH')<8){
 })()
   .catch((e) => $.logErr(e))
   .finally(() => $.done())
-}
+
 
 function GetCookie() {
    if ($request && $request.method != `OPTIONS`&& $request.url.match(/\/TaskCenter\/(sign|getSign)/)) {
@@ -224,7 +225,7 @@ function sign() {
                 signresult = `【签到结果】重复`;
                 detail = "";
               if(runtimes!==undefined){
-              $.setdata(`${Number(runtimes)+1}`,'times')  
+              $.setdata(`${parseInt(runtimes)+1}`,'times')  
               }
             }
            resolve() 
@@ -383,7 +384,7 @@ function boxshare() {
 
 function Invitant() {      
  return new Promise((resolve, reject) => {
-   $.post({ url: `${YOUTH_HOST}User/fillCode`,headers: JSON.parse(signheaderVal),body: `{"code": "46308484"}`
+   $.post({ url: `${YOUTH_HOST}User/fillCode`,headers: JSON.parse(signheaderVal),body: `{"code": "46746961"}`
 }, (error, response, data) =>
  {
    // $.log(`Invitdata:${data}`)
@@ -443,7 +444,7 @@ function readArticle() {
         }
         $.post(url, (error, response, data) => {
            readres = JSON.parse(data);
-            if (readres.items.read_score && readres.items.read_score !== 0) {
+     if (typeof readres.items.read_score === 'number')  {
               detail += `【阅读奖励】+${readres.items.read_score}个青豆\n`;
             } 
     //else if (readres.items.max_notice == '\u770b\u592a\u4e45\u4e86\uff0c\u63621\u7bc7\u8bd5\u8bd5') {
